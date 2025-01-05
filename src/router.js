@@ -1,27 +1,29 @@
 const {Router} = require("express")
+const { productAdd, productList } = require("./controlers/addControler")
+const { bodyCheck } = require("./middleware/productsMiddleware")
 
-const routes = Router
+const routes = Router()
 
 
 
 //Adicionar Produto
 
-routes.post("/add",midleware, controler)
+routes.post("/add", bodyCheck, productAdd)
 
 //Listar Produtos
 
-routes.post("/list",midleware, controler)
+routes.get("/list", productList)
 
 //Atualizar Produto
 
-routes.put("/update", midleware, controler)
+// routes.put("/update", midleware, controler)
 
 //Excuir Produto 
-routes.delete("/delete",midleware, controler)
+// routes.delete("/delete",midleware, controler)
 
 //Buscar Produto
-routes.length("/search", midleware, controler)
+// routes.length("/search", midleware, controler)
 
 
-module.exports = {routes}
+module.exports = routes
 

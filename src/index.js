@@ -1,4 +1,3 @@
-require('dotenv').config()
 const express = require('express')
 const routes = require('./router')
 
@@ -8,8 +7,8 @@ app.use(express.json())
 
 app.use(routes)
 
-const Port = process.env.Port
+const port = 3000
 
-app.listen(Port, () => {
-    console.log(`Estou rodando a aplicação da loja asilStore na porta ${Port}`)
+app.listen(port, () => {
+    console.log(`Estou rodando a aplicação da loja asilStore na porta ${port}`)
 })
