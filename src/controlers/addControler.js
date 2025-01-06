@@ -1,4 +1,4 @@
-const { productsToArray, productsToJson, createId, createTable, filterCategory, searchProductName, searchProductCategory, searchProductId } = require("../utils/functions")
+const { productsToArray, productsToJson, createId, createTable, filterCategory, searchProductName, searchProductCategory, searchProductId, findIndexProductId } = require("../utils/functions")
 const url = 'src/dataBase/products.json'
 const arrayProducts = productsToArray(url)
 const {productsTable} = arrayProducts
@@ -9,8 +9,8 @@ const productAdd = (req,res) => {
     
     try {
     
-    const searchName = searchProductName(arrayProducts,req.body)
-    const searchCategory = searchProductCategory(arrayProducts,req.body)
+    const searchName = searchProductName(productsTable,category)
+    const searchCategory = searchProductCategory(productsTable,name)
 
 
     if(searchName && searchCategory){
@@ -18,10 +18,10 @@ const productAdd = (req,res) => {
             message: `Não foi possível cadastrar um novo produto pois, já existe um produto com mesmo nome e categoria no estoque`})
     }
 
-    const newId = createId(arrayProducts)
+    const newId = createId(productsTable)
     
 
-    arrayProducts.push({
+    productsTable.push({
         id: newId,
         name,
         category,
@@ -42,19 +42,19 @@ const productList = (req,res)  => {
       const {category} = req.query
 
       if(!category){
-      const formatTable = createTable(arrayProducts);
+      const formatTable = createTable(productsTable);
          
 return res.type("text.plain").status(200).send(formatTable)  
 }
 
-const categoryArray = filterCategory(category, arrayProducts)
+const categoryArray = createTable(filterCategory(category, productsTable))
 
 
 if (categoryArray.length > 0){
-    categoryArray = createTable(categoryArray)
+    
     return res.type("text.plain").status(200).send(categoryArray)
 } else {
-    return res.status(404).json(`não foram encontrados produtos com a categoria listada`)
+    return res.status(404).json(`não foram encontrados produtos para a categoria listada`)
 }
 }
 
@@ -63,8 +63,8 @@ const productUpdate = (req,res) => {
     let {id} = req.params
     const {name, category, quantity, price} = req.body
     id = Number(id)
-
-    const findArray = searchProductId(arrayProducts,req.params)
+    
+    const findArray = searchProductId(productsTable,id)
     
         if(name){
             findArray.name= name
@@ -87,7 +87,41 @@ const productUpdate = (req,res) => {
         return res.status(200).json({mensagem:`O produto de id: ${id} foi atualizado!`})
 }
 
+const productDelete = (req,res) => {
+    let {id} = req.params
+    const {confirm} = req.body
+
+    const findArray = findIndexProductId(productsTable,id)
+
+    if(confirm){
+productsTable.splice(findArray,1)
+
+productsToJson(url,arrayProducts)
+return res.status(200).json({mensagem: `O produto de id: ${id} foi excluído`})
+
+} else if (!confirm) {
+    return res.status(200).json({mensagem: `Se deseja excluir o protudo insira o valor boleano true para a propriedade confirm`})
+}
+}
+
+const productDetail = (req,res) => {
+    const {id, name} = req.query
+    let findProductDetail
+
+    if (id) {
+         findProductDetail = searchProductId(productsTable,id)
+    } 
+
+    if(name){
+        findProductDetail =  productsTable.filter(element => {
+          return element.name.toLowerCase().includes(name.toLowerCase())
+    });
+    }
+
+    return res.status(200).json(findProductDetail)
+
+}
 
 
 
-module.exports = {productAdd, productList, productUpdate}
+module.exports = {productAdd, productList, productUpdate, productDelete, productDetail}

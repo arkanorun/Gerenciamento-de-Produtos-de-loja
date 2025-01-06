@@ -14,10 +14,11 @@ const productsToJson = (urlFile, array) => {
 }
 
 
-const searchProductId = (products, productData) => {
-    if(productData && products.length > 0){
-    const searchId = products.find((element, ) => {
-        return element.id === Number(productData.id)
+const searchProductId = (products, id) => {
+
+    if(id && products.length > 0){
+    const searchId = products.find((element) => {
+        return Number(element.id) === Number(id)
     })
     if(searchId){
         return searchId
@@ -26,10 +27,10 @@ const searchProductId = (products, productData) => {
 }
 
 
-const searchProductName = (products, productData) => {
-    if(productData && products.length > 0){
+const searchProductName = (products, name) => {
+    if(name && products.length > 0){
     const searchName = products.find((element) => {
-        return element.name === productData.name
+        return element.name === name
     })
     if(searchName){
         return searchName
@@ -37,16 +38,27 @@ const searchProductName = (products, productData) => {
 }
 }
 
-const searchProductCategory = (products, productData) => {
-    if(productData && products.length > 0){
+const searchProductCategory = (products, category) => {
+    if(category && products.length > 0){
     const searchCategory = products.find((element) => {
-        return element.category === productData.category
+        return element.category === category
     })
     if(searchCategory){
         return searchCategory
     } 
 }
 }
+
+const findIndexProductId = (products, id) => {
+    if(id && products.length > 0){
+        const searchCategory = products.findIndex((element) => {
+            return Number(element.id) === Number(id)
+        })
+        if(searchCategory >= 0){
+            return searchCategory
+        } 
+    }
+    }
 
 const createId = (array) => {
   
@@ -63,10 +75,12 @@ const createId = (array) => {
 }
 
 function createTable(products) {
+    
+    if(products.length > 0){
     const headers = ['ID', '    Nome        ', '   Categoria    ', 'Quantidade', 'Preço (R$)'];
     const lines = products.map((product) => {
        return `${product.id.toString().padEnd(5)}${product.name.padEnd(15)}${product.category.padStart(20).padEnd(20)}${Number(product.quantity).toFixed(2).padStart(10)}${Number(product.price).toString().padStart(10)}`
-});
+})
   
 //gerar tabela formatada
 
@@ -76,8 +90,13 @@ function createTable(products) {
       ...lines,
     ].join('\n');
   
-    return table;
-  }
+    return table
+    
+  } else {
+const table = []
+return table
+}
+}
 
   const filterCategory = (category, array) => {
     const categoryFilter = array.filter((element) => {
@@ -89,4 +108,4 @@ function createTable(products) {
 
   
 
-module.exports = {searchProductName,searchProductCategory, searchProductId, productsToArray, productsToJson, createId, createTable, filterCategory}
+module.exports = {searchProductName,searchProductCategory, searchProductId, productsToArray, productsToJson, createId, createTable, filterCategory, findIndexProductId}
