@@ -1,6 +1,6 @@
 const {Router} = require("express")
-const { productAdd, productList } = require("./controlers/addControler")
-const { bodyCheck } = require("./middleware/productsMiddleware")
+const { productAdd, productList, productUpdate } = require("./controlers/addControler")
+const { bodyCheck, updateCheck } = require("./middleware/productsMiddleware")
 
 const routes = Router()
 
@@ -16,7 +16,7 @@ routes.get("/list", productList)
 
 //Atualizar Produto
 
-// routes.put("/update", midleware, controler)
+routes.put("/update/:id", updateCheck, productUpdate)
 
 //Excuir Produto 
 // routes.delete("/delete",midleware, controler)

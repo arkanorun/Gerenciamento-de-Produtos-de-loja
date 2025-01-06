@@ -1,4 +1,3 @@
-const { table } = require('console')
 const fs = require('fs')
 
 
@@ -14,13 +13,37 @@ const productsToJson = (urlFile, array) => {
     fs.writeFileSync(urlFile, dataString)
 }
 
-const searchProduct = (products, productData) => {
+
+const searchProductId = (products, productData) => {
     if(productData && products.length > 0){
-    const search = products.find((element) => {
+    const searchId = products.find((element, ) => {
+        return element.id === Number(productData.id)
+    })
+    if(searchId){
+        return searchId
+    } 
+}
+}
+
+
+const searchProductName = (products, productData) => {
+    if(productData && products.length > 0){
+    const searchName = products.find((element) => {
         return element.name === productData.name
     })
-    if(search){
-        return search
+    if(searchName){
+        return searchName
+    } 
+}
+}
+
+const searchProductCategory = (products, productData) => {
+    if(productData && products.length > 0){
+    const searchCategory = products.find((element) => {
+        return element.category === productData.category
+    })
+    if(searchCategory){
+        return searchCategory
     } 
 }
 }
@@ -42,7 +65,7 @@ const createId = (array) => {
 function createTable(products) {
     const headers = ['ID', '    Nome        ', '   Categoria    ', 'Quantidade', 'Preço (R$)'];
     const lines = products.map((product) => {
-       return `${product.id.toString().padEnd(5)}${product.name.padEnd(15)}${(product.category).padStart(20).padEnd(20)}${Number(product.quantity).toFixed(2).padStart(10)}${Number(product.price).toString().padStart(10)}`
+       return `${product.id.toString().padEnd(5)}${product.name.padEnd(15)}${product.category.padStart(20).padEnd(20)}${Number(product.quantity).toFixed(2).padStart(10)}${Number(product.price).toString().padStart(10)}`
 });
   
 //gerar tabela formatada
@@ -66,4 +89,4 @@ function createTable(products) {
 
   
 
-module.exports = {searchProduct, productsToArray, productsToJson, createId, createTable, filterCategory}
+module.exports = {searchProductName,searchProductCategory, searchProductId, productsToArray, productsToJson, createId, createTable, filterCategory}

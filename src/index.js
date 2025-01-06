@@ -10,5 +10,5 @@ app.use(routes)
 const port = 3000
 
 app.listen(port, () => {
-    console.log(`Estou rodando a aplicação da loja asilStore na porta ${port}`)
+    console.log(`Estou rodando a aplicação da loja agilStore na porta ${port}`)
 })
