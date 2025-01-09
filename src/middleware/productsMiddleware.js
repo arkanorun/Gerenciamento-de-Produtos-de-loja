@@ -31,7 +31,7 @@ const createCheck = (req, res, next) => {
       (quantity && typeof quantity !== "number") ||
       (price && typeof price !== "number")
     ) {
-      return res.status(500).json({
+      return res.status(400).json({
         mensagem: "os campos quantity e price precisam ser valores numéricos",
       });
     }
@@ -49,7 +49,7 @@ const updateCheck = (req, res, next) => {
 
   try {
     if (!Number(id)) {
-      return res.status(500).json({
+      return res.status(400).json({
         mensagem: "id inválido! Por favor informe um id de valor numerico",
       });
     } else if (!findArray) {
@@ -65,7 +65,7 @@ const updateCheck = (req, res, next) => {
       (quantity && typeof quantity !== "number") ||
       (price && typeof price !== "number")
     ) {
-      return res.status(500).json({
+      return res.status(400).json({
         mensagem: "os campos quantity e price precisam ser valores numéricos",
       });
     }
@@ -83,7 +83,7 @@ const deleteCheck = (req, res, next) => {
 
   try {
     if (!Number(id)) {
-      return res.status(500).json({
+      return res.status(400).json({
         mensagem: "id inválido! Por favor informe um id de valor numerico",
       });
     } else if (!findArray) {
@@ -93,7 +93,7 @@ const deleteCheck = (req, res, next) => {
       });
     } else if (typeof confirm !== "boolean") {
       return res
-        .status(500)
+        .status(400)
         .json({
           mensagem: `O valor da propriedade confirm deve ser true se deseja confirmar a exclusão ou false se não quiser que o produto seja excluído`,
         });
@@ -112,20 +112,20 @@ const detailCheck = (req, res, next) => {
 
   try {
     if (id && !Number(id)) {
-      return res.status(500).json({
+      return res.status(400).json({
         mensagem: "id inválido! Por favor informe um id de valor numerico",
       });
     }
 
     if (name && !String(name)) {
-      return res.status(500).json({
+      return res.status(400).json({
         mensagem:
           "nome inválido! Por favor informe um nome do tipo texto (string)",
       });
     }
 
     if (!name && !id) {
-      return res.status(500).json({
+      return res.status(400).json({
         mensagem:
           "É necessário passar ao menos um dos atributos: id ou name como parametro query após a rota (ex: nomedarota?id=3 ou nomedarota?nome=com)",
       });
@@ -137,12 +137,12 @@ const detailCheck = (req, res, next) => {
 
     if (name) {
       findProductDetail = productsTable.filter((element) => {
-        return element.name.toLowerCase().includes(name.toLowerCase());
+        return element.name.toLowerCase().startsWith(name.toLowerCase());
       });
     }
 
-    if(!findProductDetail){
-        return res.status(500).json({
+    if(findProductDetail.length < 1){
+        return res.status(400).json({
             mensagem: "Não foi encontrado nenhum produto que corresponda as informações passadas",
           });
         }

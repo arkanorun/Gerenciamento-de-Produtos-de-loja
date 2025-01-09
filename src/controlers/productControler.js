@@ -9,12 +9,12 @@ const productAdd = (req,res) => {
     
     try {
     
-    const searchName = searchProductName(productsTable,category)
-    const searchCategory = searchProductCategory(productsTable,name)
+    const searchName = searchProductName(productsTable,name)
+    const searchCategory = searchProductCategory(productsTable,category)
 
 
     if(searchName && searchCategory){
-        return res.status(500).json({
+        return res.status(400).json({
             message: `Não foi possível cadastrar um novo produto pois, já existe um produto com mesmo nome e categoria no estoque`})
     }
 
@@ -114,7 +114,7 @@ const productDetail = (req,res) => {
 
     if(name){
         findProductDetail =  productsTable.filter(element => {
-          return element.name.toLowerCase().includes(name.toLowerCase())
+          return element.name.toLowerCase().startsWith(name.toLowerCase())
     });
     }
 

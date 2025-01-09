@@ -1,6 +1,7 @@
 const {Router} = require("express")
-const { productAdd, productList, productUpdate, productDelete, productDetail } = require("./controlers/addControler")
+const { productAdd ,productList, productUpdate, productDelete, productDetail  } = require("./controlers/productControler")
 const { updateCheck, createCheck, deleteCheck, detailCheck } = require("./middleware/productsMiddleware")
+
 
 const routes = Router()
 
