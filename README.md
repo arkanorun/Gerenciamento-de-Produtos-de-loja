@@ -15,7 +15,7 @@ Bem-vindo ao *AgilStore, um projeto simples e ágil para gerenciar sua loja com 
 ---
 
 ## 💡 Sobre o Projeto
-O *AgilStore* é uma aplicação backend de crud desenvolvida em Node.js usando o framework Express para facilitar o gerenciamento de uma loja. Ideal para quem busca aprender ou construir uma aplicação inicial usando estas tecnologias.
+O *AgilStore* é uma aplicação backend de crud desenvolvida em Node.js usando o framework Express para facilitar o gerenciamento de uma loja. Ideal para quem busca aprender ou construir uma aplicação inicial usando estas tecnologias. Foram utilizadas ainda as bibliotecas nodemon, para facilitar a execução do projeto no desenvolvimento e a biblioteca nativa fs para persistência dos dados em um arquivo json.
 
 ---
 
